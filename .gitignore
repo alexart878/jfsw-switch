@@ -3,6 +3,9 @@
 *.a
 *.res
 *.exe
+*.elf
+*.nacp
+*.nro
 *.map
 *.log
 *.grp

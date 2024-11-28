@@ -3,6 +3,9 @@
 *.a
 *.res
 *.exe
+*.elf
+*.nacp
+*.nro
 *.map
 *.log
 *.grp
@@ -11,6 +14,8 @@
 *~
 *.pdb
 /src/version-auto.c
+
+.vscode/
 
 /xcode/*.xcodeproj/*.mode1v3
 /xcode/*.xcodeproj/*.pbxuser

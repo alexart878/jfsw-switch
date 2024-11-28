@@ -1,9 +1,9 @@
 [submodule "jfmact"]
 	path = jfmact
-	url = ../jfmact.git
+	url = ../jfmact-switch.git
 [submodule "jfaudiolib"]
 	path = jfaudiolib
-	url = ../jfaudiolib.git
+	url = ../jfaudiolib-switch.git
 [submodule "jfbuild"]
 	path = jfbuild
-	url = ../jfbuild.git
+	url = ../jfbuild-switch.git

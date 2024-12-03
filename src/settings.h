@@ -70,6 +70,7 @@ BOOL MouseAimingOn; // whether it was on or off - NOT the type of mouse aiming
 BOOL PlayCD;
 char OggTrackName[MAXOGGTRACKLENGTH];
 int PanelScale;
+BOOL Wanton;        // load Wanton Destruction or standart game
 }GAME_SET, *GAME_SETp;
 
 extern const GAME_SET gs_defaults;

@@ -613,6 +613,7 @@ MenuItem save_i[] =
     };
 
 // No actual submenus for this, just quit text.
+MenuGroup wantongroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_WantonCustom, NULL, 0};
 MenuGroup quitgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_QuitCustom, NULL, 0};
 MenuGroup quickloadgroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_QuickLoadCustom, NULL, 0};
 MenuGroup ordergroup = {0, 0, NULL, NULL, 0, 0, m_defshade, MNU_OrderCustom, NULL, 0};
@@ -628,6 +629,8 @@ MenuGroup LoadGameGroup = {100, 5, "^Load Game", load_i, pic_loadgame, 0, m_defs
 
 #define MAIN_MENU_COOL_STUFF "^Cool Stuff"
 #define MAIN_MENU_HOW_TO_ORDER "^How to Order"
+#define MAIN_MENY_WANTON_ON "^Play SW Levels"
+#define MAIN_MENY_WANTON_OFF "^Play Wanton"
 
 MenuItem main_i[] =
     {
@@ -636,7 +639,8 @@ MenuItem main_i[] =
     {DefLayer(KEYSC_S, "^Save Game", &SaveGameGroup),    MAIN_XSTART, MAIN_LINE(2), pic_save, m_defshade, 0, NULL, MNU_SaveGameCheck, NULL},
     {DefLayer(KEYSC_O, "^Options", &optiongroup),        MAIN_XSTART, MAIN_LINE(3), pic_options, m_defshade, 0, NULL, NULL, NULL},
     {DefLayer(KEYSC_H, "^Oh Dear", &ordergroup),         MAIN_XSTART, MAIN_LINE(4), pic_orderinfo, m_defshade, 0, NULL, NULL, NULL},
-    {DefLayer(KEYSC_Q, "^Quit", &quitgroup),             MAIN_XSTART, MAIN_LINE(5), pic_quit, m_defshade, 0, NULL, NULL, NULL},
+    {DefLayer(KEYSC_Q, "^WANTON???", &wantongroup),      MAIN_XSTART, MAIN_LINE(5), pic_yinyang, m_defshade, 0, NULL, NULL, NULL},
+    {DefLayer(KEYSC_Q, "^Quit", &quitgroup),             MAIN_XSTART, MAIN_LINE(6), pic_quit, m_defshade, 0, NULL, NULL, NULL},
     {DefNone}
     };
 
@@ -2055,6 +2059,60 @@ MNU_EpisodeCustom(void)
     }
 
 BOOL
+MNU_WantonCustom(UserCall call, MenuItem_p item)
+    {
+    DialogResponse ret;
+    extern BOOL DrawScreen;
+
+    // Ignore the special touchup calls
+    if (call == uc_touchup)
+        return (TRUE);
+
+    if (cust_callback == NULL)
+        {
+        if (call != uc_setup)
+            return (FALSE);
+
+        memset(dialog, 0, sizeof(dialog));
+
+        dialog[0] = (gs.Wanton) ? S_MAINYN : S_WANTYN;
+
+        cust_callback = MNU_WantonCustom;
+        cust_callback_call = uc_draw;
+        cust_callback_item = item;
+
+		return(TRUE);
+        }
+
+    ret = MNU_Dialog();
+
+    if (DrawScreen || ret == dialog_NoAnswer)
+        return(TRUE);
+
+    cust_callback = NULL;
+    ExitMenus();
+
+    if (ret == dialog_Yes)
+        {
+        // here we just set config option, so next load will be wanton or main game levels
+        BOOL state;
+        if (gs.Wanton)
+            gs.Wanton = state = (short) 0;
+        else
+            gs.Wanton = state = (short) 1;
+
+        if (CommPlayers >= 2)
+            MultiPlayQuitFlag = TRUE;
+        else
+            QuitFlag = TRUE;
+        }
+
+    KB_ClearKeysDown();
+
+    return (TRUE);
+    }
+
+BOOL
 MNU_QuitCustom(UserCall call, MenuItem_p item)
     {
     DialogResponse ret;
@@ -2275,6 +2333,8 @@ MNU_InitMenus(void)
 //        #endif
     main_i[4].text = (SW_SHAREWARE) ? MAIN_MENU_HOW_TO_ORDER : MAIN_MENU_COOL_STUFF;
     main_i[4].hotkey = (SW_SHAREWARE) ? KEYSC_H : KEYSC_C;
+    main_i[5].text = (gs.Wanton) ? MAIN_MENY_WANTON_ON : MAIN_MENY_WANTON_OFF;
+    main_i[5].hotkey = (gs.Wanton) ? KEYSC_W : KEYSC_V;
     }
 
 ////////////////////////////////////////////////

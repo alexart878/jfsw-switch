@@ -29,6 +29,8 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #define S_MESSAGEON "GAME MESSAGES ARE NOW ON"
 #define S_MESSAGEOFF "GAME MESSAGES ARE NOW OFF"
 
+#define S_WANTYN "PRESS (Y) - QUIT TO WANTON, (N) TO FIGHT ON."
+#define S_MAINYN "PRESS (Y) - QUIT TO ORIGIN, (N) TO FIGHT ON."
 #define S_QUITYN "PRESS (Y) TO QUIT, (N) TO FIGHT ON."
 #define S_QUIT1  "CONFUCIOUS SAY, 'HE WHO QUITS,"
 #define S_QUIT1A "TOTALLY SUCKS!'"

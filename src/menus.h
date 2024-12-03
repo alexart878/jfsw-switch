@@ -291,6 +291,7 @@ typedef struct
 
 // Custom Routine Prototypes ////////////////////////////////////////////////////////////////////
 
+BOOL MNU_WantonCustom(UserCall call, MenuItem * item);
 BOOL MNU_QuitCustom(UserCall call, MenuItem * item);
 BOOL MNU_QuickLoadCustom(UserCall call, MenuItem * item);
 BOOL MNU_LoadSaveTouchupCustom(UserCall call, MenuItem * item);

@@ -3416,7 +3416,7 @@ int app_main(int argc, char const * const argv[])
     int netparam = 0, endnetparam = 0;
     int configloaded = 0;
     struct grpfile const *gamegrp = NULL;
-    char grpfile[BMAX_PATH+1] = "sw.grp";
+    char grpfile[BMAX_PATH+1];
 
 #ifndef HAVE_STARTWIN
     (void)configloaded;
@@ -3558,6 +3558,8 @@ int app_main(int argc, char const * const argv[])
     }
 
     configloaded = CONFIG_ReadSetup();
+    // ha-ha now this is place for .grp file name :(
+    strcpy(grpfile, (gs.Wanton) ? "wt.grp" : "sw.grp");
     if (getenv("SWGRP")) {
         strncpy(grpfile, getenv("SWGRP"), BMAX_PATH);
     }

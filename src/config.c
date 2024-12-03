@@ -250,9 +250,15 @@ void CONFIG_SetDefaults( void )
    CONTROL_SetMouseSensitivity(gs.MouseSpeed);
 
    for (i=0; i < MAXJOYAXES; i++) {
+#ifndef __SWITCH__
       JoystickAnalogScale[i] = 65536;
       JoystickAnalogDead[i] = 1024;
       JoystickAnalogSaturate[i] = 32767-1024;
+#else
+      JoystickAnalogScale[i] = ( i < 2 ) ? 65536 : (i == 3) ? 12288 : 24576;
+      JoystickAnalogDead[i] = 2048;
+      JoystickAnalogSaturate[i] = 32767-2048;
+#endif
       CONTROL_SetAnalogAxisScale( i, JoystickAnalogScale[i], controldevice_joystick );
       CONTROL_SetJoyAxisDead(i, JoystickAnalogDead[i]);
       CONTROL_SetJoyAxisSaturate(i, JoystickAnalogSaturate[i]);

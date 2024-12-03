@@ -42,7 +42,7 @@ NOTE: axis scale and saturation can be set in game's controller menu
 ```
 "Steam\steamapps\common\Shadow Warrior Classic\gameroot\classic"
 ```
-- Create "jfsw" folder somewhere on your SD card
+- Create "jfsw" folder somewhere on your SD card (i recommend /switch folder, as default for hb's)
 - Place "sw.grp", "wt.grp" and TrackXX.ogg from MUSIC to it
 - Place "jfsw.nro" in that folder, too
 - I recommend to launch game in non-applet mode, because otherwise worked, but not tested

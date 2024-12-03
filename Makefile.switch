@@ -41,10 +41,12 @@ TARGET		:=	jfsw
 BUILD		:=	build
 SOURCES		:=	.
 DATA		:=	data
-INCLUDES	:=	src jfbuild/include jfmact jfaudiolib/include
+INCLUDES	:=	src jfbuild/include jfbuild/libsquish jfmact jfaudiolib/include
 
-APP_TITLE   := Shadow Warrior
-APP_AUTHOR  := alexart878
+APP_TITLE   := 	Shadow Warrior
+APP_AUTHOR  := 	alexart878
+APP_VERSION := 	1.0-NX
+ICON		:= 	rsrc/swlogo.jpg
 
 # build locations
 SRC=src
@@ -67,7 +69,7 @@ ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 CFLAGS	:=	`$(PREFIX)pkg-config --cflags sdl2 SDL2_mixer SDL2_image` -Wall -O2 -ffunction-sections \
 			$(ARCH) $(DEFINES)
 
-CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -DUSE_OPENGL=USE_GLES2 -DNOASM -DHAVE_VORBIS -DHAVE_SDL
+CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -DUSE_POLYMOST=1 -DUSE_OPENGL=USE_GLES2 -DNOASM -DHAVE_VORBIS -DHAVE_SDL
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
@@ -75,7 +77,7 @@ ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
 LIBS	:=	`$(PREFIX)pkg-config --libs sdl2 SDL2_mixer SDL2_image SDL2_ttf` \
-			-lvorbisfile -lvorbis -logg -lmpg123 -lc -ljpeg -lcurl -lz -lnx -lm
+			#-lvorbisfile -lvorbis -logg -lmpg123 -lc -ljpeg -lcurl -lz -lnx -lm
 
 HOSTCXX	:= /usr/bin/g++
 
@@ -126,6 +128,21 @@ JFBUILDOBJS = \
 	$(ESRC)/smalltextfont.o \
 	$(ESRC)/mmulti_null.o \
 	$(ESRC)/version.o
+
+ifneq ($(USE_POLYMOST),0)
+	JFBUILDOBJS+= \
+		$(ESRC)/polymosttexcompress.o \
+		$(ESRC)/rg_etc1.o \
+		${EROOT}/libsquish/alpha.o \
+		${EROOT}/libsquish/colourblock.o \
+		${EROOT}/libsquish/colourfit.o \
+		${EROOT}/libsquish/colourset.o \
+		${EROOT}/libsquish/clusterfit.o \
+		${EROOT}/libsquish/maths.o \
+		${EROOT}/libsquish/rangefit.o \
+		${EROOT}/libsquish/singlecolourfit.o \
+		${EROOT}/libsquish/squish.o
+endif
 
 JFMACTOBJS = \
 	$(MACTROOT)/util_lib.o \
@@ -296,6 +313,7 @@ $(BUILD):
 	@mkdir -p $@/src
 	@mkdir -p $@/jfbuild
 	@mkdir -p $@/jfbuild/src
+	@mkdir -p $@/jfbuild/libsquish
 	@mkdir -p $@/jfmact
 	@mkdir -p $@/jfaudiolib
 	@mkdir -p $@/jfaudiolib/src
@@ -352,6 +370,9 @@ $(OFILES_SRC)	: $(HFILES_BIN)
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@$(bin2o)
+
+%.o: %.cc
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 -include $(DEPENDS)
 

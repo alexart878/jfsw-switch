@@ -1,109 +1,72 @@
-JonoF's Shadow Warrior Port
-===========================
-by Jonathon Fowler, with contributions by Ken Silverman and others
+# JFSW for Nintendo Switch
 
- * First Release: 2 April 2005
- * Email: jf@jonof.id.au
- * Website: http://www.jonof.id.au/jfsw
- * Source code: https://github.com/jonof/jfsw
+This is port of [Jonathon Fowler's SW](https://github.com/jonof/jfsw), and firstly, i would like to thank him, as well as 2 people, without whose work this project would not have been possible:
+- [Rinnegatamante](https://github.com/Rinnegatamante) for his fix of polymost rendering bug in his [PS Vita port](https://github.com/Rinnegatamante/jfsw-vita)
+- [MrHuu](https://github.com/MrHuu) for his [3DS port](https://github.com/MrHuu/jfsw-3ds), which was my point of inspiration
 
-This is the source code for my port of [3D Realms' Shadow
-Warrior](http://legacy.3drealms.com/sw/index.html) using [my port of
-Ken Silverman's Build game engine](https://github.com/jonof/jfbuild).
+## Key differences
 
-Minimum system requirements
----------------------------
+- Switch custom controls reading system, as sdl, for some reason, can't produce input events
+- "Hotplug" switch between OG game and WD addon (still need restart game, though)
+- Support for Polymost and OpenGL rendering (true 3d with option to use classic 8bpp)
+- While using SwitchBrew's [libnx](https://github.com/switchbrew/libnx), keyboard inputs (save) and (un)dock mode supported
+- Modified build files and scripts, to bring fluid devkit toolchain integration
 
-* 32 or 64-bit CPU. These have been tried first-hand:
-  * Intel x86, x86_64
-  * PowerPC 32-bit (big-endian)
-  * ARM 32-bit hard-float, 64-bit
-* A modern operating system:
-  * Linux, BSD, possibly other systems supported by [SDL 2.0](http://libsdl.org/).
-  * macOS 10.15+
-  * Windows Vista, 7, 8/10+
-* Optional: 3D acceleration with OpenGL 2.0 or OpenGL ES 2.0 capable hardware.
+## Controls
 
-You will require game data from an original release of Shadow Warrior. Refer to [the
-documentation on my website](https://www.jonof.id.au/jfsw/readme.html) on what
-releases are suitable and where to locate their game files.
+I used most comfortable layout (IMHO, can be remapped through game's controls menu):
 
-Compilation
------------
+- Left stick: moving
+- Right stick: camera control
+- A: fire
+- B: crouch
+- X: jump
+- Y: interact
+- L1/R1: switch weapons
+- L2: jump
+- R2: fire
+- L3: none
+- R3: none
+- Minus: map
+- Plus: game menu
+- Dpad up: use inventory item
+- Dpad down: holster weapon
+- Dpad left/right: switch inventory items
 
-Before you begin, clone this repository or unpack the source archive. If you cloned using
-Git, be sure to initialise the submodules of this repository (i.e. `git submodule update --init`).
+NOTE: axis scale and saturation can be set in game's controller menu
 
-Now, based on your chosen OS and compiler:
+## Installation
 
-### Linux and BSD
+- Go to releases page, and grab latest .nro executable
+- Obtain legal copy of Shadow Warrior (i used Steam version), files in:
+```
+"Steam\steamapps\common\Shadow Warrior Classic\gameroot\classic"
+```
+- Create "jfsw" folder somewhere on your SD card
+- Place "sw.grp", "wt.grp" and TrackXX.ogg from MUSIC to it
+- Place "jfsw.nro" in that folder, too
+- I recommend to launch game in non-applet mode, because otherwise worked, but not tested
+- OPTIONAL: if you want to create forwarder DO NOT USE video capture - it causes CPU Boost bug after closing app
 
-1. Install the compiler toolchain and SDL2 development packages, e.g.
-   * Debian 9: `sudo apt-get install build-essential libsdl2-dev`
-   * FreeBSD 11: `sudo pkg install gmake sdl2 pkgconf`
-2. Install optional sound support development packages.
-   * Debian 9: `sudo apt-get install libvorbis-dev libfluidsynth-dev`
-   * FreeBSD 11: `sudo pkg install libvorbis fluidsynth`
-3. Install GTK+ 3 development packages if you want launch windows and editor file choosers, e.g.
-   * Debian 9: `sudo apt-get install libgtk-3-dev`
-   * FreeBSD 11: `sudo pkg install gtk3`
-4. Open a terminal, change into the source code directory, and compile the game with: `make` or `gmake` (BSD)
-5. Assuming that was successful, run the game with: `./sw`
+## Build
 
-### macOS
+Those, who want improve something, or just compile by their own, should follow next steps:
 
-1. [Install Xcode from the Mac App Store](https://itunes.apple.com/au/app/xcode/id497799835?mt=12).
-2. Fetch and install the SDL 2.0 development package:
-   1. Fetch _SDL2-2.0.x.dmg_ from http://libsdl.org/download-2.0.php.
-   2. Copy _SDL2.framework_ found in the DMG file to `~/Library/Frameworks`. Create the
-      _Frameworks_ directory if it doesn't exist on your system.
-3. Open _sw.xcodeproj_ from within the JFShadowWarrior source code's _xcode_ folder.
-4. From the Product menu choose Run.
-
-### Windows using Microsoft Visual C++ 2015 (or newer) and NMAKE
-
-1. If needed, [install Visual Studio Community 2017 for free from
-   Microsoft](https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio).
-   Terms and conditions apply. Install at minimum these components:
-   * VC++ 2015.3 v140 toolset for desktop (x86,x64)
-   * Windows Universal CRT SDK
-   * Windows 8.1 SDK
-2. Open the command-line build prompt. e.g. _VS2015 x64 Native Tools Command Prompt_
-   or _VS2015 x86 Native Tools Command Prompt_.
-3. Change into the JFShadowWarrior source code folder, then compile the game with: `nmake /f Makefile.msvc`
-5. Assuming success, run the game with: `sw`
-
-Compilation options
--------------------
-
-Some engine features may be enabled or disabled at compile time. These can be passed
-to the MAKE tool, or written to a Makefile.user (Makefile.msvcuser for MSVC) file in
-the source directory.
-
-These options are available:
-
- * `RELEASE=1` – build with optimisations for release.
- * `RELEASE=0` – build for debugging.
- * `USE_POLYMOST=1` – enable the true 3D renderer.
- * `USE_POLYMOST=0` – disable the true 3D renderer.
- * `USE_OPENGL=1` – enable use of OpenGL 2.x acceleration.
- * `USE_OPENGL=3` – enable use of OpenGL 3.x acceleration.
- * `USE_OPENGL=USE_GL2` – enable use of OpenGL 2.x acceleration. (Not a valid setting for MSVC.)
- * `USE_OPENGL=USE_GL3` – enable use of OpenGL 3.x acceleration. (Not a valid setting for MSVC.)
- * `USE_OPENGL=USE_GLES2` – enable use of OpenGL ES 2.0 acceleration. (Not a valid setting for MSVC.)
- * `USE_OPENGL=0` – disable use of OpenGL acceleration.
- * `WITHOUT_GTK=1` – disable use of GTK+ to provide launch windows and load/save file choosers.
-
-Warnings
---------
-
-1. You should exercise caution if you choose to use multiplayer features over
-   untrustworthy networks with untrustworthy players.
-2. 3D Realms and Apogee do not support this port. Contact me instead.
-
-
-Enjoy!
-
-Jonathon Fowler
-
-
+- Setup switch homebrew enviroment, more info: [link](https://devkitpro.org/wiki/Getting_Started)
+- Download switch-sdl2 packages
+- For make:
+```
+cd jfsw-switch
+make -f Makefile.switch
+```
+- For clean:
+```
+cd jfsw-switch
+make -f Makefile.switch clean
+```
+- Also, if you want to modify shaders, or use another tools, you can (bin2c example):
+```
+cd jfsw-switch
+/usr/bin/g++ $JFTOOLS/bin2c.cc -o bin2c
+./bin2c -text $JFSRC/polymost_fs.glsl default_polymost_fs_glsl > $JFSRC/polymost_fs.c 
+```

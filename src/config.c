@@ -206,7 +206,11 @@ void CONFIG_SetDefaults( void )
    ScreenMode = 1;
    ScreenWidth = 640;
    ScreenHeight = 480;
+#ifndef __SWITCH__   
    ScreenBPP = 8;
+#else   
+   ScreenBPP = 32;
+#endif
    FXDevice = 0;
    MusicDevice = 0;
    NumVoices = 32;

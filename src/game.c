@@ -95,6 +95,10 @@ Things required to make savegames work:
 #include "startwin.h"
 #include "version.h"
 
+#ifdef __SWITCH__
+#include <switch.h>
+#endif
+
 #if DEBUG
 #define BETA 0
 #endif
@@ -809,6 +813,21 @@ void DisplayDemoText(void)
         }
     }
 
+#ifdef __SWITCH__
+int setSwitchScreen()
+{
+    switch (appletGetOperationMode())
+    {
+        default:
+        case AppletOperationMode_Handheld:
+            return COVERsetgamemode(ScreenMode, 1280, 720, ScreenBPP);
+            break;
+        case AppletOperationMode_Console:
+            return COVERsetgamemode(ScreenMode, 1920, 1080, ScreenBPP);
+            break;
+    }
+}
+#endif
 
 void Set_GameMode(void)
     {
@@ -817,7 +836,11 @@ void Set_GameMode(void)
 
     //DSPRINTF(ds,"ScreenMode %d, ScreenWidth %d, ScreenHeight %d",ScreenMode, ScreenWidth, ScreenHeight);
     //MONO_PRINT(ds);
+#ifndef __SWITCH__
     result = COVERsetgamemode(ScreenMode, ScreenWidth, ScreenHeight, ScreenBPP);
+#else
+    result = setSwitchScreen();
+#endif
 
     if (result < 0)
         {

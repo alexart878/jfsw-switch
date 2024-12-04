@@ -54,6 +54,10 @@ Those, who want improve something, or just compile by their own, should follow n
 
 - Setup switch homebrew enviroment, more info: [link](https://devkitpro.org/wiki/Getting_Started)
 - Download switch-sdl2 packages
+- Clone repo, init submodules in its folder:
+```
+git submodule update --init
+```
 - For make:
 ```
 cd jfsw-switch

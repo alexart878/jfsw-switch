@@ -35,7 +35,7 @@ Prepared for public release: 03/28/2005 - Charlie Wiederhold, 3D Realms
 #ifndef _function_public_
 #define _function_public_
 
-#define NUMGAMEFUNCTIONS 51
+#define NUMGAMEFUNCTIONS 52
 
 extern char * gamefunctions[];
 
@@ -92,5 +92,6 @@ enum
    gamefunc_Previous_Weapon,
    gamefunc_Show_Menu,
    gamefunc_Show_Console,
+   gamefunc_Toggle_Alt_Fire,
    };
 #endif

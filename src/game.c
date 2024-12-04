@@ -5330,6 +5330,13 @@ getinput(SW_PACKET *loc)
     SET_LOC_KEY(loc->bits, SK_LOOK_UP, BUTTON(gamefunc_Look_Up));
     SET_LOC_KEY(loc->bits, SK_LOOK_DOWN, BUTTON(gamefunc_Look_Down));
 
+    if (BUTTON(gamefunc_Toggle_Alt_Fire))
+        {
+        USERp u = User[pp->PlayerSprite];
+        short current_weapon = u->WeaponNum + 1;
+        CONTROL_ClearButton(gamefunc_Toggle_Alt_Fire);
+        SET(loc->bits, current_weapon);
+        }
 
     for (i = 0; i < MAX_WEAPONS_KEYS; i++)
         {

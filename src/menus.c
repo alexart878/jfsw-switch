@@ -1146,12 +1146,12 @@ static int MNU_SelectButtonFunction(const char *buttonname, int *currentfunc)
         KB_ClearKeyDown(sc_Home);
     }
     else if (KB_KeyPressed(sc_End)) {
-        *currentfunc = NUMGAMEFUNCTIONS-1;   // -1 because the last one is the console and the top is 'none'
+        *currentfunc = NUMGAMEFUNCTIONS;   // -1 because the last one is the console and the top is 'none'
         KB_ClearKeyDown(sc_End);
     }
     else if (KB_KeyPressed(sc_PgDn)) {
         *currentfunc += PGSIZ;
-        if (*currentfunc >= NUMGAMEFUNCTIONS) *currentfunc = NUMGAMEFUNCTIONS-1;
+        if (*currentfunc >= NUMGAMEFUNCTIONS) *currentfunc = NUMGAMEFUNCTIONS;
         KB_ClearKeyDown(sc_PgDn);
     }
     else if (KB_KeyPressed(sc_PgUp)) {
@@ -1163,11 +1163,11 @@ static int MNU_SelectButtonFunction(const char *buttonname, int *currentfunc)
         returnval = 1;
     }
     else if (inpt.dir == dir_North) *currentfunc = max(0, *currentfunc-1);
-    else if (inpt.dir == dir_South) *currentfunc = min(NUMGAMEFUNCTIONS-1, *currentfunc+1);
+    else if (inpt.dir == dir_South) *currentfunc = min(NUMGAMEFUNCTIONS, *currentfunc+1);
 
     CONTROL_ClearUserInput(&inpt);
 
-    if (NUMGAMEFUNCTIONS-1 > PGSIZ) {
+    if (NUMGAMEFUNCTIONS > PGSIZ) {
         topitem = *currentfunc - PGSIZ/2;
         botitem = topitem + PGSIZ;
 
@@ -1175,7 +1175,7 @@ static int MNU_SelectButtonFunction(const char *buttonname, int *currentfunc)
             botitem += -topitem;
             topitem = 0;
         } else if (botitem >= NUMGAMEFUNCTIONS) {
-            botitem = NUMGAMEFUNCTIONS-1;
+            botitem = NUMGAMEFUNCTIONS;
             topitem = botitem - PGSIZ;
         }
     }
@@ -1212,7 +1212,7 @@ static int MNU_SelectButtonFunction(const char *buttonname, int *currentfunc)
         MNU_MeasureSmallString(morestr,&dx,&dy);
         if (topitem > 0)
             MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(4), morestr, 8,16);
-        if (botitem < NUMGAMEFUNCTIONS-1)
+        if (botitem < NUMGAMEFUNCTIONS)
             MNU_DrawSmallString(XDIM - OPT_XS - dx, OPT_LINE(4)+PGSIZ*8, morestr, 8,16);
     }
 

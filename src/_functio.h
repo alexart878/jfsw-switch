@@ -87,9 +87,10 @@ char * gamefunctions[] =
    "Previous_Weapon",
    "Show_Menu",
    "Show_Console",
+   "Toggle_Alt_Fire",
    };
 
-#define NUMKEYENTRIES 50
+#define NUMKEYENTRIES 51
 
 static char * keydefaults[] =
    {
@@ -143,6 +144,7 @@ static char * keydefaults[] =
    "Next_Weapon", "'", "",
    "Previous_Weapon", ";", "",
    "Show_Console", "NumLck", "",
+   "Toggle_Alt_Fire", "", "",
    };
 
 static char * keydefaults_modern[] =
@@ -197,6 +199,7 @@ static char * keydefaults_modern[] =
    "Next_Weapon", "", "",
    "Previous_Weapon", "", "",
    "Show_Console", "NumLck", "",
+   "Toggle_Alt_Fire", "", "",
    };
 
 
@@ -243,7 +246,7 @@ static char * mouseclickeddefaults_modern[MAXMOUSEBUTTONS] =
 
 static char * joystickdefaults[MAXJOYBUTTONS] =
    {
-   "Fire",              // A
+   "Toggle_Alt_Fire",   // A
    "Crouch",            // B
    "Jump",              // X
    "Open",              // Y

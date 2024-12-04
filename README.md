@@ -18,7 +18,7 @@ I used most comfortable layout (IMHO, can be remapped through game's controls me
 
 - Left stick: moving
 - Right stick: camera control
-- A: fire
+- A: toggle alternative fire
 - B: crouch
 - X: jump
 - Y: interact
